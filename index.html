@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Finally, you have arrived.</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Inter & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background-color: #090D16;
+      color: #f1f5f9;
+      min-height: 100vh;
+    }
+
+    /* Ambient card styling with subtle blue glow */
+    .app-card {
+      background: #0d1424;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.9),
+                  0 0 50px -10px rgba(37, 99, 235, 0.15);
+    }
+
+    /* Input & Readonly Box Styles */
+    .field-box {
+      background-color: #0a0f1d;
+      border: 1px solid #1a253c;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .field-box:focus-within {
+      border-color: #2563eb;
+      box-shadow: 0 0 0 1px #2563eb, 0 0 24px -2px rgba(37, 99, 235, 0.45);
+    }
+
+    .mono-output {
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    /* Hide scrollbar for overflow text */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  </style>
+</head>
+<body class="flex flex-col items-center justify-center p-4 sm:p-6 min-h-screen selection:bg-blue-600 selection:text-white">
+
+  <!-- Main Card Container -->
+  <main class="w-full max-w-[420px]">
+    <div class="app-card rounded-[32px] p-8 sm:p-10 transition-all duration-300">
+      
+      <!-- Top Center Icon: Glowing Translucent Badge with Lock -->
+      <div class="flex justify-center mb-7">
+        <div class="w-14 h-14 rounded-2xl bg-[#111a30] border border-blue-500/20 flex items-center justify-center shadow-lg shadow-blue-950/50">
+          <svg class="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+            <rect x="5" y="11" width="14" height="10" rx="2" ry="2" />
+            <path d="M8 11V7a4 4 0 0 1 8 0v4" />
+          </svg>
+        </div>
+      </div>
+
+      <!-- Heading & Subtitle -->
+      <header class="text-center mb-8">
+        <h1 class="text-2xl sm:text-[28px] font-bold text-white tracking-tight mb-2">
+          Finally, you have arrived.
+        </h1>
+        <p class="text-slate-400 text-[14.5px] font-normal leading-relaxed">
+          I built this place just for you.
+        </p>
+      </header>
+
+      <!-- Interactive Fields -->
+      <div class="space-y-6">
+        
+        <!-- Field 1: TELL ME YOUR NAME -->
+        <div>
+          <label for="nameInput" class="block text-[11px] font-bold tracking-[0.09em] text-slate-400 uppercase mb-2.5">
+            TELL ME YOUR NAME
+          </label>
+          <div class="field-box rounded-2xl">
+            <input 
+              type="text" 
+              id="nameInput" 
+              autocomplete="off"
+              autocorrect="off"
+              autocapitalize="off"
+              spellcheck="false"
+              class="w-full px-4 py-3.5 bg-transparent text-slate-100 text-base font-normal focus:outline-none"
+            />
+          </div>
+        </div>
+
+        <!-- Field 2: WHAT YOU DESIRE IS -->
+        <div>
+          <label for="outputDisplay" class="block text-[11px] font-bold tracking-[0.09em] text-slate-400 uppercase mb-2.5">
+            WHAT YOU DESIRE IS
+          </label>
+          <div class="field-box rounded-2xl px-4 py-3.5 flex items-center justify-between gap-3 relative min-h-[52px]">
+            <!-- Clean password output (Monospace, no prefixes, no placeholders) -->
+            <div 
+              id="outputDisplay" 
+              class="mono-output text-[15px] text-slate-100 select-all overflow-x-auto whitespace-nowrap no-scrollbar flex-1 tracking-wide"
+            ></div>
+            
+            <!-- Inline Copy Button (reveals only when password unlocked) -->
+            <div class="relative flex items-center flex-shrink-0">
+              <button 
+                id="copyBtn" 
+                type="button"
+                aria-label="Copy password to clipboard"
+                class="p-1.5 text-slate-400 hover:text-white active:scale-95 rounded-lg hover:bg-slate-800/60 transition-all duration-200 opacity-0 pointer-events-none"
+              >
+                <!-- Copy Icon -->
+                <svg id="copyIcon" class="w-[18px] h-[18px]" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+                </svg>
+                <!-- Success Checkmark Icon -->
+                <svg id="checkIcon" class="w-[18px] h-[18px] text-emerald-400 hidden" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                  <polyline points="20 6 9 17 4 12" />
+                </svg>
+              </button>
+
+              <!-- Inline Tooltip Feedback -->
+              <span 
+                id="copyTooltip" 
+                class="pointer-events-none absolute -top-8 right-0 text-[10px] uppercase font-bold tracking-wider bg-slate-800 text-slate-200 px-2 py-0.5 rounded shadow-lg border border-slate-700/60 opacity-0 transition-opacity duration-200 whitespace-nowrap"
+              >
+                Copied
+              </span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Quiet subtle footer -->
+    <p class="text-center text-xs text-slate-500/80 mt-6 tracking-wide font-normal">
+      Built with love for my brother.
+    </p>
+  </main>
+
+  <script>
+    const nameInput = document.getElementById('nameInput');
+    const outputDisplay = document.getElementById('outputDisplay');
+    const copyBtn = document.getElementById('copyBtn');
+    const copyIcon = document.getElementById('copyIcon');
+    const checkIcon = document.getElementById('checkIcon');
+    const copyTooltip = document.getElementById('copyTooltip');
+
+    let currentSecret = "";
+
+    // Strictly check for full name match (handles casing and extra internal/trailing spaces)
+    function isBrother(raw) {
+      if (!raw) return false;
+      const normalized = raw.trim().toLowerCase().replace(/\s+/g, ' ');
+      return normalized === 'aabid hassan bhat';
+    }
+
+    function handleInput() {
+      const val = nameInput.value;
+
+      if (isBrother(val)) {
+        currentSecret = "behappydowell";
+        outputDisplay.textContent = currentSecret;
+        copyBtn.classList.remove('opacity-0', 'pointer-events-none');
+      } else {
+        // Stays completely blank otherwise
+        currentSecret = "";
+        outputDisplay.textContent = "";
+        copyBtn.classList.add('opacity-0', 'pointer-events-none');
+      }
+    }
+
+    function copySecret() {
+      if (!currentSecret) return;
+
+      // Reliable cross-browser clipboard copy
+      const tempTextArea = document.createElement("textarea");
+      tempTextArea.value = currentSecret;
+      tempTextArea.style.position = "fixed";
+      tempTextArea.style.left = "-9999px";
+      document.body.appendChild(tempTextArea);
+      tempTextArea.select();
+
+      try {
+        document.execCommand('copy');
+
+        // Visual feedback
+        copyIcon.classList.add('hidden');
+        checkIcon.classList.remove('hidden');
+        copyTooltip.classList.remove('opacity-0');
+
+        setTimeout(() => {
+          copyIcon.classList.remove('hidden');
+          checkIcon.classList.add('hidden');
+          copyTooltip.classList.add('opacity-0');
+        }, 1600);
+      } catch (err) {
+        console.error("Copy failed", err);
+      } finally {
+        document.body.removeChild(tempTextArea);
+      }
+    }
+
+    nameInput.addEventListener('input', handleInput);
+    copyBtn.addEventListener('click', copySecret);
+  </script>
+</body>
+</html>
